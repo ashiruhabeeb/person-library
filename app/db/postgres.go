@@ -21,6 +21,7 @@ func ConnectPSQL(cfg *config.AppConfig) (*gorm.DB, error) {
 
 	// AutoMigrate create needed tables as defined in the model package in PSQL database
 	db.AutoMigrate(&model.Books{})
+	log.Println("[INIT] Database tables sucessfully migrated..")
 
 	Db, _ := db.DB()
 	Db.SetMaxOpenConns(cfg.Database.MaxOpenConnections)

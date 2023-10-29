@@ -1,0 +1,17 @@
+server:
+  host: localhost
+  port: 8180
+  timeout:
+    server: 30
+    read: 15
+    write: 10
+    idle: 5
+database:
+  dbuser: dbuser
+  dbpwd: dbpassword
+  dbhost: dbhost
+  dbport: dbport
+  dbname: dbname
+  sslmode: disable
+  maxopenconns: 100
+  maxidleconns: 20

@@ -1,6 +1,8 @@
 package services
 
 import (
+	"time"
+
 	"github.com/ashiruhabeeb/simple-library/app/model"
 	"github.com/ashiruhabeeb/simple-library/app/repository"
 )
@@ -37,6 +39,7 @@ func (bs *booksService) Create(payload model.BookPayload)(model.Books, error){
 	price, _ := payload.Price.Float64()
 	rating, _ := payload.Rating.Float64()
 	discount, _ := payload.Discount.Int64()
+	quantity, _ := payload.Quantity.Int64()
 
 	bk := &model.Books{
 		Title:       payload.Title,
@@ -44,8 +47,10 @@ func (bs *booksService) Create(payload model.BookPayload)(model.Books, error){
 		Author:      payload.Author,
 		Acquisition: payload.Acquisition,
 		Price:       float32(price),
-		Rating:      uint(rating),
+		Rating:      float32(rating),
 		Discount:    float32(discount),
+		Quantity:    uint(quantity),
+		CreatedAt:   time.Time{},
 	}
 	return bs.repo.Create(*bk)
 }
@@ -57,14 +62,17 @@ func (bs *booksService) Update(bkId uint, payload model.BookPayload)(model.Books
 	price, _ := payload.Price.Float64()
 	rating, _ := payload.Rating.Float64()
 	discount, _ := payload.Discount.Int64()
+	quantity,_ := payload.Quantity.Int64()
 
 	bk.Title = payload.Title
 	bk.Description = payload.Description
 	bk.Author = payload.Author
 	bk.Acquisition = payload.Acquisition
 	bk.Price = float32(price)
-	bk.Rating = uint(rating)
+	bk.Rating = float32(rating)
 	bk.Discount = float32(discount)
+	bk.Quantity = uint(quantity)
+	bk.UpdatedAt = time.Now() 
 
 	return bs.repo.Update(bk)
 }

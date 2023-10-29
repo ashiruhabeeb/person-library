@@ -74,7 +74,7 @@ func (cfg *AppConfig) Listen(){
 
 	// Define server options
 	server := &http.Server{
-		Addr: cfg.Server.Host + ":" + cfg.Server.Port,
+		Addr: ":" + cfg.Server.Port,
 		ReadTimeout: cfg.Server.Timeout.Read * time.Second,
 		WriteTimeout: cfg.Server.Timeout.Write * time.Second,
 		IdleTimeout: cfg.Server.Timeout.Idle * time.Second,
@@ -87,15 +87,15 @@ func (cfg *AppConfig) Listen(){
     log.Printf("[init] Server is starting on %s...🚀\n", server.Addr)
 
 	// Run the server on a new goroutine
-	go func() {
-		if err := server.ListenAndServe(); err != nil {
-			if err == http.ErrServerClosed {
+	// go func() {
+	// 	if err := server.ListenAndServe(); err != nil {
+	// 		if err == http.ErrServerClosed {
 				
-			} else {
-				log.Fatalf("[ERROR] Server failed to start due to err: %v", err)
-			}
-		}
-	}()
+	// 		} else {
+	// 			log.Fatalf("[ERROR] Server failed to start due to err: %v", err)
+	// 		}
+	// 	}
+	// }()
 
 	// Block on this channel listeninf for those previously defined syscalls assign
     // to variable so we can let the user know why the server is shutting down
