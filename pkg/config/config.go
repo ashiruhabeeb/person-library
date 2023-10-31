@@ -1,12 +1,6 @@
 package config
 
 import (
-	"context"
-	"log"
-	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
 	"time"
 
 	"github.com/spf13/viper"
@@ -66,25 +60,25 @@ func LoadConfig(configpath string) (cfg *AppConfig, err error) {
 }
 
 // Listen will kick-start the http server
-func (cfg *AppConfig) Listen(){
-	var lisChan = make(chan os.Signal, 1)
+// func (cfg *AppConfig) Listen(){
+// 	var lisChan = make(chan os.Signal, 1)
 
-	ctx, cancel := context.WithTimeout(context.Background(), cfg.Server.Timeout.Server * time.Second)
-	defer cancel()
+// 	ctx, cancel := context.WithTimeout(context.Background(), cfg.Server.Timeout.Server * time.Second)
+// 	defer cancel()
 
 	// Define server options
-	server := &http.Server{
-		Addr: ":" + cfg.Server.Port,
-		ReadTimeout: cfg.Server.Timeout.Read * time.Second,
-		WriteTimeout: cfg.Server.Timeout.Write * time.Second,
-		IdleTimeout: cfg.Server.Timeout.Idle * time.Second,
-	}
+	// server := &http.Server{
+	// 	Addr: ":" + cfg.Server.Port,
+	// 	ReadTimeout: cfg.Server.Timeout.Read * time.Second,
+	// 	WriteTimeout: cfg.Server.Timeout.Write * time.Second,
+	// 	IdleTimeout: cfg.Server.Timeout.Idle * time.Second,
+	// }
 
 	// Handle ctrl+c/ctrl+x interrupt
-	signal.Notify(lisChan, os.Interrupt, syscall.SIGTSTP, syscall.SIGTERM, syscall.SIGHUP)
+	// signal.Notify(lisChan, os.Interrupt, syscall.SIGTSTP, syscall.SIGTERM, syscall.SIGHUP)
 
 	// Alert the user that the server is starting
-    log.Printf("[init] Server is starting on %s...🚀\n", server.Addr)
+    // log.Printf("[init] Server is starting on %s...🚀\n", server.Addr)
 
 	// Run the server on a new goroutine
 	// go func() {
@@ -99,13 +93,13 @@ func (cfg *AppConfig) Listen(){
 
 	// Block on this channel listeninf for those previously defined syscalls assign
     // to variable so we can let the user know why the server is shutting down
-    interruption := <-lisChan
+    // interruption := <-lisChan
 
     // If we get one of the pre-prescribed syscalls, gracefully terminate the server
     // while alerting the user
-    log.Printf("[INFO] Server is shutting down due to %+v\n", interruption)
+    // log.Printf("[INFO] Server is shutting down due to %+v\n", interruption)
 	
-    if err := server.Shutdown(ctx); err != nil {
-        log.Fatalf("[INFO] Server was unable to gracefully shutdown due to err: %+v", err)
-    }
-}
+//     if err := server.Shutdown(ctx); err != nil {
+//         log.Fatalf("[INFO] Server was unable to gracefully shutdown due to err: %+v", err)
+//     }
+// }

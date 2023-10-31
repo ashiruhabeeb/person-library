@@ -23,7 +23,5 @@ func main() {
 		log.Println("[INIT] PSQL connection successfully established..📡")
 	}
 
-	app.SetUpRoutes(db)
-
-	cfg.Listen()
+	app.SetUpRoutes(db, cfg)
 }
