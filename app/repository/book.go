@@ -31,7 +31,7 @@ func (b *BooksRepo) FindAll() ([]model.Books, error) {
 // FindByBooksID returns a single record from Books table based on the the provided BooksId
 func (b *BooksRepo) FindByBooksID(bkId uint) (model.Books, error) {
 	var bk model.Books
-	err := b.db.First(&bk).Error
+	err := b.db.First(&bk, bkId).Error
 	return bk, err
 }
 

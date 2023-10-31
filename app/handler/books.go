@@ -21,6 +21,7 @@ func NewBookHandler(bs services.BookService) *bookHandler {
 	return &bookHandler{bs}
 } 
 
+// CreateBook func creates a new a record in the books table based on request paramaeters
 func (h *bookHandler) CreateBook(c *fiber.Ctx) error {
 	var payload model.BookPayload
 
@@ -46,6 +47,7 @@ func (h *bookHandler) CreateBook(c *fiber.Ctx) error {
 	return c.Status(201).JSON(fiber.Map{"data": bkRes})
 }
 
+// GetAllBooks func fetches all records from the books table
 func (h *bookHandler) GetAllBooks(c *fiber.Ctx) error {
 	books, err := h.bs.FindAll()
 	if err != nil {
@@ -62,6 +64,7 @@ func (h *bookHandler) GetAllBooks(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"data": bkRes})
 }
 
+// GetBookById func fetche one record from the books table based on the parameter (bkId) provided
 func (h *bookHandler) GetBookById(c *fiber.Ctx) error {
 	idString := c.Params("books_id")
 
@@ -80,6 +83,7 @@ func (h *bookHandler) GetBookById(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"data": bkRes})
 }
 
+// UpdateBook func updates already existing book record in the books table with the newly provided request parameters (bkId and payload) 
 func (h *bookHandler) UpdateBook(c *fiber.Ctx) error {
 	var payload model.BookPayload
 
@@ -102,6 +106,7 @@ func (h *bookHandler) UpdateBook(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"data": bkRes})
 }
 
+// DeleteBook func deletes book record from the books table based on the provided parameter (bkId)
 func (h *bookHandler) DeleteBook(c *fiber.Ctx) error {
 	idString := c.Params("books_id")
 
@@ -122,6 +127,8 @@ func (h *bookHandler) DeleteBook(c *fiber.Ctx) error {
 
 // convertToBookResponse converts data from model.Books struct to BookResponse struct
 func convertToBookResponse(bk model.Books) BookResponse {
+	now := time.Now().Local()
+
 	return BookResponse{
 		BooksId:     bk.BooksId,
 		Title:       bk.Title,
@@ -132,7 +139,7 @@ func convertToBookResponse(bk model.Books) BookResponse {
 		Rating:      uint(bk.Rating),
 		Discount:    bk.Discount,
 		Quanitity:   bk.Quantity,
-		CreatedAt:   time.Time{},
-		UpdatedAt:   time.Time{},
+		CreatedAt:   now,
+		UpdatedAt:   now,
 	}
 }
